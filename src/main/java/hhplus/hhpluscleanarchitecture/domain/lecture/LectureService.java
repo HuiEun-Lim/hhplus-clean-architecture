@@ -37,6 +37,8 @@ public class LectureService {
     @Transactional
     public LectureEnrollment enrollLecture (LectureEnrollment lectureEnrollment) {
 
+        Lecture lecture = lectureRepository.selectLecture(lectureEnrollment.getLectureId());
+
         int userLectureCount = lectureEnrollmentRepository.countUserEnrolledLecture(lectureEnrollment);
 
         lectureEnrollment.checkEnrolledLecture(userLectureCount);
@@ -44,8 +46,6 @@ public class LectureService {
         int enrolledUserCount = lectureEnrollmentRepository.countEnrollmentLectureWithLock(lectureEnrollment.getLectureId());
 
         lectureEnrollment.checkMaxEnrollLecture(enrolledUserCount, MAX_ENROLL_COUNT);
-
-        Lecture lecture = lectureRepository.selectLecture(lectureEnrollment.getLectureId());
 
         LectureEnrollment insertEnrollment = lecture.toLectureEnrollment(lectureEnrollment.getUserId());
 

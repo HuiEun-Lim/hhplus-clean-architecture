@@ -26,12 +26,17 @@ public class LectureRepositoryImpl implements LectureRepository {
 
     @Override
     public Lecture selectLecture(Long lectureId) {
-        Optional<Lecture> lecture = lectureJpaRepository.findById(lectureId);
+        Optional<Lecture> lecture = lectureJpaRepository.findByLectureIdWithLock(lectureId);
 
         if(lecture.isEmpty()) {
             throw new LectureException(LectureErrorCode.LECTURE_IS_NOT_EXISTS);
         }
 
         return lecture.get();
+    }
+
+    @Override
+    public Lecture save(Lecture lecture) {
+        return lectureJpaRepository.save(lecture);
     }
 }

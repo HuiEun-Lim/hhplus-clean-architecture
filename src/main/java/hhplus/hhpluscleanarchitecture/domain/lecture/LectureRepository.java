@@ -9,4 +9,5 @@ public interface LectureRepository {
 
     public Lecture selectLecture(Long lectureId);
 
+    Lecture save(Lecture lecture);
 }

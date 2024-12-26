@@ -29,7 +29,7 @@ public class LectureEnrollmentRepositoryImpl implements LectureEnrollmentReposit
 
     @Override
     public int countEnrollmentLectureWithLock(Long lectureId) {
-        return enrollmentJpaRepository.countByLectureIdWithLock(lectureId);
+        return enrollmentJpaRepository.countByLectureId(lectureId);
     }
 
     @Override

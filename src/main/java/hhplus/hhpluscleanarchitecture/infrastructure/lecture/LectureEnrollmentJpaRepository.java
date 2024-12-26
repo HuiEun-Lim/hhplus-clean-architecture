@@ -13,11 +13,6 @@ public interface LectureEnrollmentJpaRepository extends JpaRepository<LectureEnr
     /* 특강 아이디와 사용자 아이디로 신청 수 조회 */
     int countByLectureIdAndUserId(Long lectureId, Long userId);
 
-    /* 특강 아이디로 특강 신청 수 조회 with Lock */
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT COUNT(e) FROM LectureEnrollment e WHERE e.lectureId = :lectureId")
-    int countByLectureIdWithLock(Long lectureId);
-
     /* 특강 아이디로 특강 신청 수 조회 */
     int countByLectureId(Long lectureId);
 
