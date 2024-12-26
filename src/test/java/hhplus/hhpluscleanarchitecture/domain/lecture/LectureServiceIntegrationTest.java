@@ -66,8 +66,41 @@ class LectureServiceIntegrationTest {
         executorService.shutdown();
 
         // then
-        int enrollmentList = lectureEnrollmentRepository.countEnrollmentLecture(lectureId);
-        assertThat(enrollmentList).isEqualTo(MAX_ENROLL_COUNT);
+        int enrollmentCount = lectureEnrollmentRepository.countEnrollmentLecture(lectureId);
+        assertThat(enrollmentCount).isEqualTo(MAX_ENROLL_COUNT);
+
+    }
+
+    @Test
+    @DisplayName("한 사용자가 같은 특강을 5번 신청한다.")
+    void enrollLectureOneUserFiveTimes() throws InterruptedException {
+        // given
+        int processCount = 5;
+        long userId = 1;
+        long lectureId = lecture.getLectureId();
+
+        // when
+        ExecutorService executorService = Executors.newFixedThreadPool(processCount);
+        CountDownLatch latch = new CountDownLatch(processCount);
+
+        for (int i = 0; i < processCount; i++) {
+            executorService.execute(() -> {
+                try {
+                    lectureService.enrollLecture(LectureEnrollment.create(userId, lectureId));
+                } catch (LectureException e) {
+                } finally {
+                    latch.countDown();
+                }
+            });
+
+        }
+
+        latch.await();
+        executorService.shutdown();
+
+        // then
+        int enrollmentCount = lectureEnrollmentRepository.countUserEnrolledLecture(LectureEnrollment.create(userId, lectureId));
+        assertThat(enrollmentCount).isEqualTo(1);
 
     }
 
