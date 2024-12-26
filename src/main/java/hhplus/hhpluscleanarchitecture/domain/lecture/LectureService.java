@@ -43,7 +43,7 @@ public class LectureService {
 
         lectureEnrollment.checkEnrolledLecture(userLectureCount);
 
-        int enrolledUserCount = lectureEnrollmentRepository.countEnrollmentLectureWithLock(lectureEnrollment.getLectureId());
+        int enrolledUserCount = lectureEnrollmentRepository.countEnrollmentLecture(lectureEnrollment.getLectureId());
 
         lectureEnrollment.checkMaxEnrollLecture(enrolledUserCount, MAX_ENROLL_COUNT);
 

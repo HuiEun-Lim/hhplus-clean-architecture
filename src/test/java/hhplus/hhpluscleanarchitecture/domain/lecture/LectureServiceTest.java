@@ -87,7 +87,7 @@ class LectureServiceTest {
         // Given
         LectureEnrollment mockEnrollment = new LectureEnrollment(1L, 1L, 1L, "Lecture 1", "Instructor 1", LocalDateTime.now(), LocalDateTime.now().plusHours(1), "Room A");
         when(lectureEnrollmentRepository.countUserEnrolledLecture(mockEnrollment)).thenReturn(0);
-        when(lectureEnrollmentRepository.countEnrollmentLectureWithLock(1L)).thenReturn(25);
+        when(lectureEnrollmentRepository.countEnrollmentLecture(1L)).thenReturn(25);
         Lecture mockLecture = new Lecture(1L, "Lecture 1", "Instructor 1", LocalDateTime.now(), LocalDateTime.now().plusHours(1), "Room A", LocalDateTime.now().minusDays(1));
         when(lectureRepository.selectLecture(1L)).thenReturn(mockLecture);
         when(lectureEnrollmentRepository.enrollLecture(any())).thenReturn(mockEnrollment);
@@ -101,7 +101,7 @@ class LectureServiceTest {
         assertEquals("Lecture 1", result.getLectureName());
 
         verify(lectureEnrollmentRepository, times(1)).countUserEnrolledLecture(mockEnrollment);
-        verify(lectureEnrollmentRepository, times(1)).countEnrollmentLectureWithLock(1L);
+        verify(lectureEnrollmentRepository, times(1)).countEnrollmentLecture(1L);
         verify(lectureRepository, times(1)).selectLecture(1L);
         verify(lectureEnrollmentRepository, times(1)).enrollLecture(any());
     }
@@ -129,7 +129,7 @@ class LectureServiceTest {
         // Given
         LectureEnrollment mockEnrollment = new LectureEnrollment(1L, 1L, 1L, "Lecture 1", "Instructor 1", LocalDateTime.now(), LocalDateTime.now().plusHours(1), "Room A");
         when(lectureEnrollmentRepository.countUserEnrolledLecture(mockEnrollment)).thenReturn(0);
-        when(lectureEnrollmentRepository.countEnrollmentLectureWithLock(1L)).thenReturn(30);
+        when(lectureEnrollmentRepository.countEnrollmentLecture(1L)).thenReturn(30);
 
         // When & Then
         assertThatThrownBy(() -> lectureService.enrollLecture(mockEnrollment))
@@ -137,7 +137,7 @@ class LectureServiceTest {
                 .hasMessage(LectureErrorCode.MAX_ENROLLMENT_LECTURE.getMessage());
 
         verify(lectureEnrollmentRepository, times(1)).countUserEnrolledLecture(mockEnrollment);
-        verify(lectureEnrollmentRepository, times(1)).countEnrollmentLectureWithLock(1L);
+        verify(lectureEnrollmentRepository, times(1)).countEnrollmentLecture(1L);
         verifyNoMoreInteractions(lectureRepository);
         verify(lectureEnrollmentRepository, never()).enrollLecture(any());
     }

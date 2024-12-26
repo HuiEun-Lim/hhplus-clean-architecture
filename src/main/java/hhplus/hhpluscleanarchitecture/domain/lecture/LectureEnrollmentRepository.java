@@ -8,8 +8,6 @@ public interface LectureEnrollmentRepository {
 
     int countUserEnrolledLecture(LectureEnrollment lectureEnrollment);
 
-    int countEnrollmentLectureWithLock(Long lectureId);
-
     int countEnrollmentLecture(Long lectureId);
 
     List<LectureEnrollment> selectMyEnrolledmentList(Long userId);
