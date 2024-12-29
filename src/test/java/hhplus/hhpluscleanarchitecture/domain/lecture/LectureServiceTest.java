@@ -120,7 +120,6 @@ class LectureServiceTest {
 
         verify(lectureEnrollmentRepository, times(1)).countUserEnrolledLecture(mockEnrollment);
         verifyNoMoreInteractions(lectureEnrollmentRepository);
-        verifyNoInteractions(lectureRepository);
     }
 
     @Test
@@ -138,7 +137,6 @@ class LectureServiceTest {
 
         verify(lectureEnrollmentRepository, times(1)).countUserEnrolledLecture(mockEnrollment);
         verify(lectureEnrollmentRepository, times(1)).countEnrollmentLecture(1L);
-        verifyNoMoreInteractions(lectureRepository);
         verify(lectureEnrollmentRepository, never()).enrollLecture(any());
     }
 

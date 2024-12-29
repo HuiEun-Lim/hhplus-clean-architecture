@@ -1,5 +1,7 @@
 package hhplus.hhpluscleanarchitecture.domain.lecture;
 
+import hhplus.hhpluscleanarchitecture.support.exception.lecture.LectureErrorCode;
+import hhplus.hhpluscleanarchitecture.support.exception.lecture.LectureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,15 +43,27 @@ public class LectureService {
 
         int userLectureCount = lectureEnrollmentRepository.countUserEnrolledLecture(lectureEnrollment);
 
-        lectureEnrollment.checkEnrolledLecture(userLectureCount);
+        this.checkEnrolledLecture(userLectureCount);
 
         int enrolledUserCount = lectureEnrollmentRepository.countEnrollmentLecture(lectureEnrollment.getLectureId());
 
-        lectureEnrollment.checkMaxEnrollLecture(enrolledUserCount, MAX_ENROLL_COUNT);
+        this.checkMaxEnrollLecture(enrolledUserCount);
 
         LectureEnrollment insertEnrollment = lecture.toLectureEnrollment(lectureEnrollment.getUserId());
 
         return lectureEnrollmentRepository.enrollLecture(insertEnrollment);
+    }
+
+    private void checkEnrolledLecture(int count) {
+        if (count > 0) {
+            throw new LectureException(LectureErrorCode.USER_ENROLLED_LECTURE);
+        }
+    }
+
+    private void checkMaxEnrollLecture(int count) {
+        if (count >= MAX_ENROLL_COUNT) {
+            throw new LectureException(LectureErrorCode.MAX_ENROLLMENT_LECTURE);
+        }
     }
 
 }

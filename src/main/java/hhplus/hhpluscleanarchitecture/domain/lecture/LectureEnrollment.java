@@ -37,20 +37,4 @@ public class LectureEnrollment extends BaseEntity {
                 .build();
     }
 
-    public boolean checkEnrolledLecture(int count) {
-        if (count > 0) {
-            throw new LectureException(LectureErrorCode.USER_ENROLLED_LECTURE);
-        }
-
-        return true;
-    }
-
-    public boolean checkMaxEnrollLecture(int count, int max) {
-        if (count >= max) {
-            throw new LectureException(LectureErrorCode.MAX_ENROLLMENT_LECTURE);
-        }
-
-        return true;
-    }
-
 }
